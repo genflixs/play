@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VIDEY.CO</title>
+
+<style>
+
+/* =====================
+THEME
+===================== */
+
+:root{
+--bg:#f4f4f4;
+--text:#111;
+--card:#ffffff;
+--accent:#ff2d2d;
+}
+
+body.dark{
+--bg:#0f0f0f;
+--text:#ffffff;
+--card:#1a1a1a;
+}
+
+body{
+margin:0;
+font-family:system-ui,-apple-system,Segoe UI,Roboto;
+background:var(--bg);
+color:var(--text);
+transition:.3s;
+}
+
+/* =====================
+NAVBAR
+===================== */
+
+.navbar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px 20px;
+background:var(--card);
+box-shadow:0 4px 20px rgba(0,0,0,.08);
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.home{
+text-decoration:none;
+font-weight:600;
+color:var(--text);
+}
+
+.title{
+position:absolute;
+left:50%;
+transform:translateX(-50%);
+font-size:18px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.right{
+display:flex;
+gap:10px;
+}
+
+/* =====================
+BUTTON
+===================== */
+
+.btn{
+padding:8px 14px;
+border-radius:6px;
+text-decoration:none;
+background:#444;
+color:#fff;
+font-size:14px;
+}
+
+.download-btn{
+display:block;
+width:220px;
+margin:25px auto;
+padding:12px;
+background:var(--accent);
+color:#fff;
+text-align:center;
+text-decoration:none;
+border-radius:6px;
+font-weight:600;
+}
+
+.download-btn:hover{
+background:#e00000;
+}
+
+.mode{
+cursor:pointer;
+padding:8px 10px;
+border-radius:6px;
+background:#ddd;
+}
+
+body.dark .mode{
+background:#333;
+color:#fff;
+}
+
+/* =====================
+LAYOUT
+===================== */
+
+.container{
+max-width:950px;
+margin:auto;
+padding:20px;
+}
+
+/* =====================
+VIDEO PLAYER
+===================== */
+
+.player{
+position:relative;
+width:100%;
+padding-top:56.25%;
+background:#000;
+border-radius:12px;
+overflow:hidden;
+box-shadow:0 10px 40px rgba(0,0,0,.2);
+}
+
+.player video,
+.player iframe{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+}
+
+/* =====================
+AD OVERLAY
+===================== */
+
+.ad-overlay{
+position:absolute;
+bottom:65px;
+left:50%;
+transform:translateX(-50%);
+width:320px;
+height:50px;
+z-index:6;
+display:none;
+}
+
+.ad-close{
+position:absolute;
+top:-8px;
+right:-8px;
+background:#000;
+color:#fff;
+width:22px;
+height:22px;
+border-radius:50%;
+font-size:12px;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+}
+
+/* =====================
+MOBILE
+===================== */
+
+@media(max-width:600px){
+
+.ad-overlay{
+bottom:75px;
+transform:translateX(-50%) scale(.9);
+}
+
+}
+
+/* =====================
+AD SHOW IN FULLSCREEN
+===================== */
+
+.player:fullscreen .ad-overlay{
+display:block;
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:9999;
+}
+
+.player:-webkit-full-screen .ad-overlay{
+display:block;
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:9999;
+}
+
+.player:-ms-fullscreen .ad-overlay{
+display:block;
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+z-index:9999;
+}
+
+
+/* =====================
+VIRAL ACTION BUTTONS
+===================== */
+
+.viral-actions{
+display:flex;
+justify-content:center;
+gap:10px;
+margin-top:20px;
+flex-wrap:wrap;
+}
+
+.viral-actions button{
+background:var(--card);
+border:1px solid rgba(0,0,0,.1);
+padding:10px 16px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
+transition:.2s;
+}
+
+body.dark .viral-actions button{
+border:1px solid rgba(255,255,255,.1);
+}
+
+.viral-actions button:hover{
+transform:scale(1.05);
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<div class="navbar">
+
+<a href="/" class="home">Home</a>
+
+<div class="title">VIDEY.CO</div>
+
+<div class="right">
+<a href="/upload" class="btn">Upload</a>
+<div class="mode" onclick="toggleMode()">🌙</div>
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="container">
+
+<div class="player" id="playerWrap">
+
+<video id="videoPlayer" controls playsinline></video>
+
+<!-- AD SLOT -->
+
+<div class="ad-overlay" id="adOverlay">
+
+<div class="ad-close" onclick="closeAd()">×</div>
+
+<script>
+atOptions = {
+'key' : '9dc083f42d0130a500b7f599a0bfb38e',
+'format' : 'iframe',
+'height' : 50,
+'width' : 320,
+'params' : {}
+};
+</script>
+
+<script src="https://environmenttalentrabble.com/9dc083f42d0130a500b7f599a0bfb38e/invoke.js"></script>
+
+</div>
+
+</div>
+
+<a href="https://biteanxiously.com/urr55f55?key=50d713c23cd1e3e609f75fd8f6658bd7"
+target="_blank"
+class="download-btn">
+DOWNLOAD
+</a>
+
+<div class="viral-actions">
+
+<button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button>
+
+<button onclick="shareVideo()">🔁 Share</button>
+
+<button onclick="followPage()">👤 Follow</button>
+
+<button onclick="copyLink()">🔗 Copy Link</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* =====================
+LOAD VIDEO
+===================== */
+
+(function(){
+
+const params = new URLSearchParams(window.location.search);
+let id = params.get("id");
+
+const player = document.getElementById("videoPlayer");
+const wrap = document.getElementById("playerWrap");
+
+if(id){
+
+/* =====================
+MULTI SOURCE VIDEO
+===================== */
+
+let sources;
+
+/* xfree path */
+
+if(id && id.startsWith("xf/")){
+
+let path = id.replace("xf/","");
+
+sources = [
+`https://cdn.xfree.com/xfree-prod/${path}`
+];
+
+}
+
+/* xxxfollow path */
+
+else if(id && id.includes("/") && !id.includes(".mp4") === false){
+
+sources = [
+`https://www.xxxfollow.com/media/fans/post_public/${id}`
+];
+
+}
+
+/* default videy + qu.ax */
+
+else{
+
+sources = [
+`https://cdn.videy.co/${id}`,
+`https://qu.ax/x/${id}`
+];
+
+}
+
+let currentSource = 0;
+
+function loadSource(){
+
+if(currentSource >= sources.length){
+
+wrap.innerHTML =
+`<iframe src="${sources[0]}" allowfullscreen></iframe>`;
+
+return;
+
+}
+
+player.src = sources[currentSource];
+
+player.onerror = function(){
+
+currentSource++;
+loadSource();
+
+};
+
+}
+
+loadSource();
+
+player.addEventListener("error",function(){
+
+wrap.innerHTML =
+`<iframe src="${videoUrl}" allowfullscreen></iframe>`;
+
+});
+
+}
+
+else{
+
+wrap.innerHTML =
+"<h2 style='text-align:center;padding:40px'>No video ID found</h2>";
+
+}
+
+})();
+
+/* =====================
+DARK MODE
+===================== */
+
+function toggleMode(){
+document.body.classList.toggle("dark");
+}
+
+/* =====================
+AUTO FULLSCREEN FIX
+===================== */
+
+const video = document.getElementById("videoPlayer");
+const playerWrap = document.getElementById("playerWrap");
+
+video.addEventListener("play", function(){
+
+if(!document.fullscreenElement){
+
+if(playerWrap.requestFullscreen){
+playerWrap.requestFullscreen();
+}
+
+else if(playerWrap.webkitRequestFullscreen){
+playerWrap.webkitRequestFullscreen();
+}
+
+else if(playerWrap.msRequestFullscreen){
+playerWrap.msRequestFullscreen();
+}
+
+}
+
+});
+
+/* =====================
+SHOW AD AFTER 5 SEC
+===================== */
+
+setTimeout(()=>{
+
+document.getElementById("adOverlay").style.display="block";
+
+},5000);
+
+/* =====================
+CLOSE AD
+===================== */
+
+function closeAd(){
+
+document.getElementById("adOverlay").remove();
+
+}
+
+/* =====================
+FORCE BACK TO HOME
+===================== */
+
+history.pushState(null,null,location.href);
+
+window.onpopstate=function(){
+
+location.href="/";
+
+};
+
+/* =====================
+LIKE SYSTEM
+===================== */
+
+let likes = localStorage.getItem("likes") || 0;
+document.getElementById("likeCount").innerText = likes;
+
+function likeVideo(){
+
+likes++;
+
+localStorage.setItem("likes",likes);
+
+document.getElementById("likeCount").innerText = likes;
+
+}
+
+/* =====================
+SHARE SYSTEM
+===================== */
+
+function shareVideo(){
+
+const url = window.location.href;
+
+if(navigator.share){
+
+navigator.share({
+title:"Watch this video",
+url:url
+});
+
+}
+
+else{
+
+copyLink();
+
+alert("Link copied. Share it!");
+
+}
+
+}
+
+/* =====================
+FOLLOW BUTTON
+===================== */
+
+function followPage(){
+
+window.open("https://t.me/yourchannel","_blank");
+
+}
+
+/* =====================
+COPY LINK
+===================== */
+
+function copyLink(){
+
+const url = window.location.href;
+
+navigator.clipboard.writeText(url);
+
+alert("Link copied!");
+
+}
+
+</script>
+
+</body>
+</html>
