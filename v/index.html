@@ -9,6 +9,8 @@
 
 <style>
 
+/* ================= THEME ================= */
+
 :root{
 --bg:#f4f4f4;
 --text:#111;
@@ -30,7 +32,7 @@ color:var(--text);
 transition:.3s;
 }
 
-/* NAVBAR */
+/* ================= NAVBAR ================= */
 
 .navbar{
 display:flex;
@@ -56,7 +58,6 @@ left:50%;
 transform:translateX(-50%);
 font-size:18px;
 font-weight:700;
-letter-spacing:1px;
 }
 
 .right{
@@ -64,7 +65,7 @@ display:flex;
 gap:10px;
 }
 
-/* BUTTON */
+/* ================= BUTTON ================= */
 
 .btn{
 padding:8px 14px;
@@ -88,10 +89,6 @@ border-radius:6px;
 font-weight:600;
 }
 
-.download-btn:hover{
-background:#e00000;
-}
-
 .mode{
 cursor:pointer;
 padding:8px 10px;
@@ -104,7 +101,7 @@ background:#333;
 color:#fff;
 }
 
-/* LAYOUT */
+/* ================= LAYOUT ================= */
 
 .container{
 max-width:950px;
@@ -112,7 +109,7 @@ margin:auto;
 padding:20px;
 }
 
-/* PLAYER */
+/* ================= PLAYER ================= */
 
 .player{
 position:relative;
@@ -133,7 +130,7 @@ width:100%;
 height:100%;
 }
 
-/* ADS */
+/* ================= ADS ================= */
 
 .ad-overlay{
 position:absolute;
@@ -162,6 +159,8 @@ justify-content:center;
 cursor:pointer;
 }
 
+/* ================= MOBILE ================= */
+
 @media(max-width:600px){
 
 .ad-overlay{
@@ -170,6 +169,8 @@ transform:translateX(-50%) scale(.9);
 }
 
 }
+
+/* ================= VIRAL ================= */
 
 .viral-actions{
 display:flex;
@@ -186,15 +187,6 @@ padding:10px 16px;
 border-radius:8px;
 cursor:pointer;
 font-weight:600;
-transition:.2s;
-}
-
-body.dark .viral-actions button{
-border:1px solid rgba(255,255,255,.1);
-}
-
-.viral-actions button:hover{
-transform:scale(1.05);
 }
 
 </style>
@@ -226,11 +218,8 @@ controls
 playsinline
 webkit-playsinline
 preload="metadata"
->
-
-<source id="videoSource" src="" type="video/mp4">
-
-</video>
+controlsList="nodownload"
+></video>
 
 <div class="ad-overlay" id="adOverlay">
 
@@ -261,11 +250,8 @@ DOWNLOAD
 <div class="viral-actions">
 
 <button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button>
-
 <button onclick="shareVideo()">🔁 Share</button>
-
 <button onclick="followPage()">👤 Follow</button>
-
 <button onclick="copyLink()">🔗 Copy Link</button>
 
 </div>
@@ -274,7 +260,7 @@ DOWNLOAD
 
 <script>
 
-/* LOAD VIDEO MOBILE FIX */
+/* ================= SMART VIDEO PLAYER ================= */
 
 (function(){
 
@@ -286,21 +272,20 @@ const wrap = document.getElementById("playerWrap");
 
 if(!id){
 
-wrap.innerHTML =
-"<h2 style='text-align:center;padding:40px'>No video ID found</h2>";
+wrap.innerHTML="<h2 style='text-align:center;padding:40px'>No video ID found</h2>";
 return;
 
 }
 
-let sources = [];
+let sources=[];
 
 /* XFREE */
 
 if(id.startsWith("xf/")){
 
-let path = id.replace("xf/","");
+let path=id.replace("xf/","");
 
-sources = [
+sources=[
 `https://cdn.xfree.com/xfree-prod/${path}`
 ];
 
@@ -310,7 +295,7 @@ sources = [
 
 else if(id.includes("/") && id.includes(".mp4")){
 
-sources = [
+sources=[
 `https://www.xxxfollow.com/media/fans/post_public/${id}`
 ];
 
@@ -320,27 +305,30 @@ sources = [
 
 else{
 
-sources = [
+sources=[
+
 `https://cdn.videy.co/${id}`,
-`https://qu.ax/x/${id}`
+`https://qu.ax/x/${id}`,
+`https://qu.ax/f/${id}`
+
 ];
 
 }
 
-let current = 0;
+let index=0;
 
-function loadVideo(){
+/* LOAD VIDEO */
 
-if(current >= sources.length){
+function loadSource(){
+
+if(index>=sources.length){
 
 fallbackIframe();
 return;
 
 }
 
-let url = sources[current];
-
-player.src = url;
+player.src=sources[index];
 player.load();
 
 }
@@ -349,53 +337,46 @@ player.load();
 
 player.addEventListener("error",function(){
 
-current++;
-
-if(current < sources.length){
-
-loadVideo();
-
-}else{
-
-fallbackIframe();
-
-}
+index++;
+loadSource();
 
 });
 
-/* MOBILE BLOCK FIX */
+/* STALL FIX */
 
-player.addEventListener("loadedmetadata",function(){
+player.addEventListener("stalled",function(){
 
-// video berhasil load
+index++;
+loadSource();
 
 });
 
-/* IFRAME FALLBACK */
+/* IF VIDEO CANNOT PLAY */
 
 function fallbackIframe(){
 
-wrap.innerHTML =
-`<iframe
+wrap.innerHTML=
+
+`<iframe 
 src="${sources[0]}"
-frameborder="0"
 allowfullscreen
-style="width:100%;height:100%;position:absolute;top:0;left:0;">
+frameborder="0"
+style="width:100%;height:100%;position:absolute;top:0;left:0">
 </iframe>`;
 
 }
 
-loadVideo();
+loadSource();
 
 })();
 
-/* DARK MODE */
+/* ================= DARK MODE ================= */
 
 function toggleMode(){
 document.body.classList.toggle("dark");
 }
 
-/* ADS */
+/* ================= ADS ================= */
 
 setTimeout(()=>{
 document.getElementById("adOverlay").style.display="block";
@@ -405,7 +386,7 @@ function closeAd(){
 document.getElementById("adOverlay").remove();
 }
 
-/* BACK BUTTON */
+/* ================= BACK BUTTON ================= */
 
 history.pushState(null,null,location.href);
 
@@ -413,24 +394,27 @@ window.onpopstate=function(){
 location.href="/";
 };
 
-/* LIKE */
+/* ================= LIKE ================= */
 
-let likes = localStorage.getItem("likes") || 0;
-document.getElementById("likeCount").innerText = likes;
+let likes=localStorage.getItem("likes")||0;
+
+document.getElementById("likeCount").innerText=likes;
 
 function likeVideo(){
 
 likes++;
+
 localStorage.setItem("likes",likes);
-document.getElementById("likeCount").innerText = likes;
+
+document.getElementById("likeCount").innerText=likes;
 
 }
 
-/* SHARE */
+/* ================= SHARE ================= */
 
 function shareVideo(){
 
-const url = window.location.href;
+const url=window.location.href;
 
 if(navigator.share){
 
@@ -442,23 +426,25 @@ url:url
 }else{
 
 copyLink();
-alert("Link copied. Share it!");
+alert("Link copied!");
 
 }
 
 }
 
-/* FOLLOW */
+/* ================= FOLLOW ================= */
 
 function followPage(){
+
 window.open("https://t.me/yourchannel","_blank");
+
 }
 
-/* COPY */
+/* ================= COPY ================= */
 
 function copyLink(){
 
-const url = window.location.href;
+const url=window.location.href;
 
 navigator.clipboard.writeText(url);
 
@@ -470,4 +456,3 @@ alert("Link copied!");
 
 </body>
 </html>
-
