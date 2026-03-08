@@ -9,10 +9,6 @@
 
 <style>
 
-/* =====================
-THEME
-===================== */
-
 :root{
 --bg:#f4f4f4;
 --text:#111;
@@ -34,9 +30,7 @@ color:var(--text);
 transition:.3s;
 }
 
-/* =====================
-NAVBAR
-===================== */
+/* NAVBAR */
 
 .navbar{
 display:flex;
@@ -70,9 +64,7 @@ display:flex;
 gap:10px;
 }
 
-/* =====================
-BUTTON
-===================== */
+/* BUTTON */
 
 .btn{
 padding:8px 14px;
@@ -112,9 +104,7 @@ background:#333;
 color:#fff;
 }
 
-/* =====================
-LAYOUT
-===================== */
+/* LAYOUT */
 
 .container{
 max-width:950px;
@@ -122,9 +112,7 @@ margin:auto;
 padding:20px;
 }
 
-/* =====================
-VIDEO PLAYER
-===================== */
+/* VIDEO PLAYER */
 
 .player{
 position:relative;
@@ -145,9 +133,7 @@ width:100%;
 height:100%;
 }
 
-/* =====================
-AD OVERLAY
-===================== */
+/* AD */
 
 .ad-overlay{
 position:absolute;
@@ -176,9 +162,7 @@ justify-content:center;
 cursor:pointer;
 }
 
-/* =====================
-MOBILE
-===================== */
+/* MOBILE */
 
 @media(max-width:600px){
 
@@ -189,41 +173,7 @@ transform:translateX(-50%) scale(.9);
 
 }
 
-/* =====================
-AD SHOW IN FULLSCREEN
-===================== */
-
-.player:fullscreen .ad-overlay{
-display:block;
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-z-index:9999;
-}
-
-.player:-webkit-full-screen .ad-overlay{
-display:block;
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-z-index:9999;
-}
-
-.player:-ms-fullscreen .ad-overlay{
-display:block;
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-z-index:9999;
-}
-
-
-/* =====================
-VIRAL ACTION BUTTONS
-===================== */
+/* VIRAL BUTTON */
 
 .viral-actions{
 display:flex;
@@ -251,14 +201,11 @@ border:1px solid rgba(255,255,255,.1);
 transform:scale(1.05);
 }
 
-
 </style>
 
 </head>
 
 <body>
-
-<!-- NAVBAR -->
 
 <div class="navbar">
 
@@ -273,23 +220,18 @@ transform:scale(1.05);
 
 </div>
 
-<!-- CONTENT -->
-
 <div class="container">
 
 <div class="player" id="playerWrap">
 
-<video 
+<video
 id="videoPlayer"
 controls
 playsinline
 webkit-playsinline
-muted
 preload="metadata"
-controlsList="nodownload"
+controlslist="nodownload"
 ></video>
-
-<!-- AD SLOT -->
 
 <div class="ad-overlay" id="adOverlay">
 
@@ -333,9 +275,7 @@ DOWNLOAD
 
 <script>
 
-/* =====================
-LOAD VIDEO
-===================== */
+/* LOAD VIDEO */
 
 (function(){
 
@@ -347,15 +287,11 @@ const wrap = document.getElementById("playerWrap");
 
 if(id){
 
-/* =====================
-MULTI SOURCE VIDEO
-===================== */
-
 let sources;
 
-/* xfree path */
+/* xfree */
 
-if(id && id.startsWith("xf/")){
+if(id.startsWith("xf/")){
 
 let path = id.replace("xf/","");
 
@@ -365,9 +301,9 @@ sources = [
 
 }
 
-/* xxxfollow path */
+/* xxxfollow */
 
-else if(id && id.includes("/") && !id.includes(".mp4") === false){
+else if(id.includes("/") && id.includes(".mp4")){
 
 sources = [
 `https://www.xxxfollow.com/media/fans/post_public/${id}`
@@ -375,7 +311,7 @@ sources = [
 
 }
 
-/* default videy + qu.ax */
+/* default */
 
 else{
 
@@ -394,7 +330,6 @@ if(currentSource >= sources.length){
 
 wrap.innerHTML =
 `<iframe src="${sources[0]}" allowfullscreen></iframe>`;
-
 return;
 
 }
@@ -411,17 +346,6 @@ loadSource();
 }
 
 loadSource();
-player.muted = true;
-
-player.play().catch(()=>{
-// autoplay blocked, wait for user interaction
-});
-player.addEventListener("error",function(){
-
-wrap.innerHTML =
-`<iframe src="${sources[0]}" allowfullscreen></iframe>`;
-
-});
 
 }
 
@@ -434,76 +358,33 @@ wrap.innerHTML =
 
 })();
 
-/* =====================
-DARK MODE
-===================== */
+/* DARK MODE */
 
 function toggleMode(){
 document.body.classList.toggle("dark");
 }
 
-/* =====================
-AUTO FULLSCREEN FIX
-===================== */
-
-const video = document.getElementById("videoPlayer");
-const playerWrap = document.getElementById("playerWrap");
-
-video.addEventListener("click", function(){
-
-if(!document.fullscreenElement){
-
-if(playerWrap.requestFullscreen){
-playerWrap.requestFullscreen();
-}
-
-else if(playerWrap.webkitRequestFullscreen){
-playerWrap.webkitRequestFullscreen();
-}
-
-else if(playerWrap.msRequestFullscreen){
-playerWrap.msRequestFullscreen();
-}
-
-}
-
-});
-
-/* =====================
-SHOW AD AFTER 5 SEC
-===================== */
+/* SHOW AD */
 
 setTimeout(()=>{
-
 document.getElementById("adOverlay").style.display="block";
-
 },5000);
 
-/* =====================
-CLOSE AD
-===================== */
+/* CLOSE AD */
 
 function closeAd(){
-
 document.getElementById("adOverlay").remove();
-
 }
 
-/* =====================
-FORCE BACK TO HOME
-===================== */
+/* BACK BUTTON */
 
 history.pushState(null,null,location.href);
 
 window.onpopstate=function(){
-
 location.href="/";
-
 };
 
-/* =====================
-LIKE SYSTEM
-===================== */
+/* LIKE */
 
 let likes = localStorage.getItem("likes") || 0;
 document.getElementById("likeCount").innerText = likes;
@@ -518,9 +399,7 @@ document.getElementById("likeCount").innerText = likes;
 
 }
 
-/* =====================
-SHARE SYSTEM
-===================== */
+/* SHARE */
 
 function shareVideo(){
 
@@ -538,26 +417,19 @@ url:url
 else{
 
 copyLink();
-
 alert("Link copied. Share it!");
 
 }
 
 }
 
-/* =====================
-FOLLOW BUTTON
-===================== */
+/* FOLLOW */
 
 function followPage(){
-
 window.open("https://t.me/yourchannel","_blank");
-
 }
 
-/* =====================
-COPY LINK
-===================== */
+/* COPY LINK */
 
 function copyLink(){
 
@@ -572,5 +444,4 @@ alert("Link copied!");
 </script>
 
 </body>
-
 </html>
