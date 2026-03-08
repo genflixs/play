@@ -279,7 +279,15 @@ transform:scale(1.05);
 
 <div class="player" id="playerWrap">
 
-<video id="videoPlayer" controls playsinline></video>
+<video 
+id="videoPlayer"
+controls
+playsinline
+webkit-playsinline
+muted
+preload="metadata"
+controlsList="nodownload"
+></video>
 
 <!-- AD SLOT -->
 
@@ -403,11 +411,15 @@ loadSource();
 }
 
 loadSource();
+player.muted = true;
 
+player.play().catch(()=>{
+// autoplay blocked, wait for user interaction
+});
 player.addEventListener("error",function(){
 
 wrap.innerHTML =
-`<iframe src="${videoUrl}" allowfullscreen></iframe>`;
+`<iframe src="${sources[0]}" allowfullscreen></iframe>`;
 
 });
 
@@ -437,7 +449,7 @@ AUTO FULLSCREEN FIX
 const video = document.getElementById("videoPlayer");
 const playerWrap = document.getElementById("playerWrap");
 
-video.addEventListener("play", function(){
+video.addEventListener("click", function(){
 
 if(!document.fullscreenElement){
 
@@ -560,4 +572,5 @@ alert("Link copied!");
 </script>
 
 </body>
+
 </html>
