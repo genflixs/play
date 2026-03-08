@@ -10,7 +10,10 @@ const CONFIG = {
   quax_f: "https://qu.ax/f/",
 
   /* SMARTLINK FULL HD */
-  smartlink_url: "https://omg10.com/4/10410353"
+  smartlink_url: "https://omg10.com/4/10410353",
+
+  /* HISTATS ID */
+  histats_id: "4996898"
 
 };
 
