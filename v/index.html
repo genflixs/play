@@ -7,11 +7,15 @@
 
 <title>VIDEY.CO</title>
 
-<style>
+<meta property="og:title" content="VIDEY.CO Player">
+<meta property="og:type" content="video.other">
+<meta property="og:description" content="Watch video instantly">
 
-/* =====================
-THEME
-===================== */
+<link rel="preconnect" href="https://cdn.videy.co">
+<link rel="preconnect" href="https://qu.ax">
+<link rel="preconnect" href="https://cdn.xfree.com">
+
+<style>
 
 :root{
 --bg:#f4f4f4;
@@ -34,9 +38,7 @@ color:var(--text);
 transition:.3s;
 }
 
-/* =====================
-NAVBAR
-===================== */
+/* NAVBAR */
 
 .navbar{
 display:flex;
@@ -62,7 +64,6 @@ left:50%;
 transform:translateX(-50%);
 font-size:18px;
 font-weight:700;
-letter-spacing:1px;
 }
 
 .right{
@@ -70,9 +71,7 @@ display:flex;
 gap:10px;
 }
 
-/* =====================
-BUTTON
-===================== */
+/* BUTTON */
 
 .btn{
 padding:8px 14px;
@@ -81,23 +80,6 @@ text-decoration:none;
 background:#444;
 color:#fff;
 font-size:14px;
-}
-
-.download-btn{
-display:block;
-width:220px;
-margin:25px auto;
-padding:12px;
-background:var(--accent);
-color:#fff;
-text-align:center;
-text-decoration:none;
-border-radius:6px;
-font-weight:600;
-}
-
-.download-btn:hover{
-background:#e00000;
 }
 
 .mode{
@@ -112,9 +94,7 @@ background:#333;
 color:#fff;
 }
 
-/* =====================
-LAYOUT
-===================== */
+/* LAYOUT */
 
 .container{
 max-width:950px;
@@ -122,9 +102,7 @@ margin:auto;
 padding:20px;
 }
 
-/* =====================
-VIDEO PLAYER
-===================== */
+/* PLAYER */
 
 .player{
 position:relative;
@@ -145,9 +123,59 @@ width:100%;
 height:100%;
 }
 
-/* =====================
-AD OVERLAY
-===================== */
+/* DOWNLOAD AREA */
+
+.download-row{
+display:flex;
+justify-content:center;
+gap:15px;
+margin-top:25px;
+flex-wrap:wrap;
+}
+
+.download-btn,
+.hd-btn{
+padding:16px 34px;
+border-radius:12px;
+font-weight:700;
+text-decoration:none;
+color:#fff;
+font-size:15px;
+letter-spacing:.4px;
+display:inline-flex;
+align-items:center;
+gap:8px;
+transition:all .25s ease;
+box-shadow:0 6px 20px rgba(0,0,0,.25);
+}
+
+.download-btn{
+background:linear-gradient(135deg,#ff2d2d,#ff6b6b);
+}
+
+.download-btn:hover{
+transform:translateY(-3px) scale(1.05);
+box-shadow:0 12px 35px rgba(255,45,45,.6);
+}
+
+.hd-btn{
+background:linear-gradient(135deg,#1e88e5,#42a5f5);
+}
+
+.hd-btn:hover{
+transform:translateY(-3px) scale(1.05);
+box-shadow:0 12px 35px rgba(30,136,229,.6);
+}
+
+/* AD BANNER */
+
+.ad-banner{
+margin-top:20px;
+display:flex;
+justify-content:center;
+}
+
+/* ADS PLAYER */
 
 .ad-overlay{
 position:absolute;
@@ -176,54 +204,7 @@ justify-content:center;
 cursor:pointer;
 }
 
-/* =====================
-MOBILE
-===================== */
-
-@media(max-width:600px){
-
-.ad-overlay{
-bottom:75px;
-transform:translateX(-50%) scale(.9);
-}
-
-}
-
-/* =====================
-AD SHOW IN FULLSCREEN
-===================== */
-
-.player:fullscreen .ad-overlay{
-display:block;
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-z-index:9999;
-}
-
-.player:-webkit-full-screen .ad-overlay{
-display:block;
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-z-index:9999;
-}
-
-.player:-ms-fullscreen .ad-overlay{
-display:block;
-position:absolute;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-z-index:9999;
-}
-
-
-/* =====================
-VIRAL ACTION BUTTONS
-===================== */
+/* VIRAL */
 
 .viral-actions{
 display:flex;
@@ -240,17 +221,7 @@ padding:10px 16px;
 border-radius:8px;
 cursor:pointer;
 font-weight:600;
-transition:.2s;
 }
-
-body.dark .viral-actions button{
-border:1px solid rgba(255,255,255,.1);
-}
-
-.viral-actions button:hover{
-transform:scale(1.05);
-}
-
 
 </style>
 
@@ -258,65 +229,86 @@ transform:scale(1.05);
 
 <body>
 
-<!-- NAVBAR -->
-
 <div class="navbar">
 
-<a href="/" class="home">Home</a>
+<a href="https://omg10.com/4/10410353" class="home">Home</a>
 
 <div class="title">VIDEY.CO</div>
 
 <div class="right">
-<a href="/upload" class="btn">Upload</a>
+<a href="https://omg10.com/4/10410353" class="btn">Upload</a>
 <div class="mode" onclick="toggleMode()">🌙</div>
 </div>
 
 </div>
 
-<!-- CONTENT -->
-
 <div class="container">
 
 <div class="player" id="playerWrap">
 
-<video id="videoPlayer" controls playsinline></video>
-
-<!-- AD SLOT -->
+<video
+id="videoPlayer"
+controls
+controlsList="nodownload"
+playsinline
+webkit-playsinline
+preload="metadata"
+poster="https://i.pinimg.com/736x/25/c9/f1/25c9f190574aa76d0b9b2802a481873e.jpg"
+></video>
 
 <div class="ad-overlay" id="adOverlay">
 
 <div class="ad-close" onclick="closeAd()">×</div>
 
 <script>
-atOptions = {
-'key' : '9dc083f42d0130a500b7f599a0bfb38e',
-'format' : 'iframe',
-'height' : 50,
-'width' : 320,
-'params' : {}
-};
+  atOptions = {
+    'key' : '508bcf5f3702d4bd48d225b529385479',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
 </script>
-
-<script src="https://environmenttalentrabble.com/9dc083f42d0130a500b7f599a0bfb38e/invoke.js"></script>
-
-</div>
+<script src="https://fundingfashioned.com/508bcf5f3702d4bd48d225b529385479/invoke.js"></script>
 
 </div>
 
-<a href="https://biteanxiously.com/urr55f55?key=50d713c23cd1e3e609f75fd8f6658bd7"
-target="_blank"
-class="download-btn">
-DOWNLOAD
-</a>
+</div>
+
+<!-- DOWNLOAD BUTTONS -->
+
+<div class="download-row">
+
+<a href="#" id="downloadBtn" class="download-btn">DOWNLOAD</a>
+
+<a href="#" id="hdBtn" class="hd-btn">GET FULL HD</a>
+
+</div>
+
+<!-- ADSTERRA BANNER -->
+
+<div class="ad-banner">
+
+<script>
+  atOptions = {
+    'key' : '508bcf5f3702d4bd48d225b529385479',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://fundingfashioned.com/508bcf5f3702d4bd48d225b529385479/invoke.js"></script>
+
+</div>
+
+<!-- VIRAL BUTTONS -->
 
 <div class="viral-actions">
 
 <button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button>
-
 <button onclick="shareVideo()">🔁 Share</button>
-
 <button onclick="followPage()">👤 Follow</button>
-
 <button onclick="copyLink()">🔗 Copy Link</button>
 
 </div>
@@ -325,119 +317,136 @@ DOWNLOAD
 
 <script>
 
-/* =====================
-LOAD VIDEO
-===================== */
+/* SMART PLAYER */
 
 (function(){
 
-const params = new URLSearchParams(window.location.search);
-let id = params.get("id");
+const params=new URLSearchParams(window.location.search);
+const id=params.get("id");
 
-const player = document.getElementById("videoPlayer");
-const wrap = document.getElementById("playerWrap");
+const player=document.getElementById("videoPlayer");
+const wrap=document.getElementById("playerWrap");
 
-if(id){
+if(!id){
 
-/* =====================
-MULTI SOURCE VIDEO
-===================== */
-
-let sources;
-
-/* xfree path */
-
-if(id && id.startsWith("xf/")){
-
-let path = id.replace("xf/","");
-
-sources = [
-`https://cdn.xfree.com/xfree-prod/${path}`
-];
-
-}
-
-/* xxxfollow path */
-
-else if(id && id.includes("/") && !id.includes(".mp4") === false){
-
-sources = [
-`https://www.xxxfollow.com/media/fans/post_public/${id}`
-];
-
-}
-
-/* default videy + qu.ax */
-
-else{
-
-sources = [
-`https://cdn2.videy.co/${id}`,
-`https://qu.ax/x/${id}`
-];
-
-}
-
-let currentSource = 0;
-
-function loadSource(){
-
-if(currentSource >= sources.length){
-
-wrap.innerHTML =
-`<iframe src="${sources[0]}" allowfullscreen></iframe>`;
-
+wrap.innerHTML="<h2 style='text-align:center;padding:40px'>No video ID found</h2>";
 return;
 
 }
 
-player.src = sources[currentSource];
+let sources=[];
 
-player.onerror = function(){
+if(id.startsWith("xf/")){
 
-currentSource++;
-loadSource();
-
-};
+let path=id.replace("xf/","");
+sources=[enc(`https://cdn.xfree.com/xfree-prod/${path}`)];
 
 }
 
-loadSource();
+else if(id.includes("/") && id.includes(".mp4")){
 
-player.addEventListener("error",function(){
-
-wrap.innerHTML =
-`<iframe src="${videoUrl}" allowfullscreen></iframe>`;
-
-});
+sources=[enc(`https://www.xxxfollow.com/media/fans/post_public/${id}`)];
 
 }
 
 else{
 
-wrap.innerHTML =
-"<h2 style='text-align:center;padding:40px'>No video ID found</h2>";
+sources=[
+enc(`https://cdn2.videy.co/${id}`),
+enc(`https://qu.ax/x/${id}`),
+enc(`https://qu.ax/f/${id}`)
+];
 
 }
+
+let index=0;
+
+function loadSource(){
+
+if(index>=sources.length){
+
+fallbackIframe();
+return;
+
+}
+
+const realSrc=dec(sources[index]);
+
+player.src=realSrc;
+player.load();
+
+/* AUTO SET DOWNLOAD LINK */
+const dl=document.getElementById("downloadBtn");
+if(dl){
+const real=dec(sources[index]);
+const encoded=btoa(real);
+
+dl.href="safelink.html?data="+encoded;
+}
+
+}
+
+player.addEventListener("error",function(){
+
+index++;
+loadSource();
+
+});
+
+player.addEventListener("stalled",function(){
+
+index++;
+loadSource();
+
+});
+
+function fallbackIframe(){
+
+wrap.innerHTML=
+`<iframe src="${sources[0]}" allowfullscreen frameborder="0"
+style="width:100%;height:100%;position:absolute;top:0;left:0"></iframe>`;
+
+}
+
+loadSource();
+
+/* SIMPLE URL ENCRYPT */
+
+function enc(str){
+return btoa(str);
+}
+
+function dec(str){
+return atob(str);
+}
+
 
 })();
 
-/* =====================
-DARK MODE
-===================== */
 
-function toggleMode(){
-document.body.classList.toggle("dark");
+/* ENCRYPTED SMARTLINK */
+
+const hdLink="aHR0cHM6Ly9vbWcxMC5jb20vNC8xMDQxMDM1Mw==";
+
+function dec(str){
+return atob(str);
 }
 
-/* =====================
-AUTO FULLSCREEN FIX
-===================== */
+document.getElementById("hdBtn").addEventListener("click",function(e){
 
-const video = document.getElementById("videoPlayer");
-const playerWrap = document.getElementById("playerWrap");
+e.preventDefault();
 
-video.addEventListener("play", function(){
+const real=dec(hdLink);
+
+window.open(real,"_blank");
+
+});
+/* AUTO FULLSCREEN */
+
+const video=document.getElementById("videoPlayer");
+const playerWrap=document.getElementById("playerWrap");
+
+video.addEventListener("play",function(){
 
 if(!document.fullscreenElement){
 
@@ -449,70 +458,50 @@ else if(playerWrap.webkitRequestFullscreen){
 playerWrap.webkitRequestFullscreen();
 }
 
-else if(playerWrap.msRequestFullscreen){
-playerWrap.msRequestFullscreen();
-}
-
 }
 
 });
 
-/* =====================
-SHOW AD AFTER 5 SEC
-===================== */
+/* DARK MODE */
 
-setTimeout(()=>{
-
-document.getElementById("adOverlay").style.display="block";
-
-},5000);
-
-/* =====================
-CLOSE AD
-===================== */
-
-function closeAd(){
-
-document.getElementById("adOverlay").remove();
-
+function toggleMode(){
+document.body.classList.toggle("dark");
 }
 
-/* =====================
-FORCE BACK TO HOME
-===================== */
+/* PLAYER ADS */
+
+setTimeout(()=>{
+document.getElementById("adOverlay").style.display="block";
+},5000);
+
+function closeAd(){
+document.getElementById("adOverlay").remove();
+}
+
+/* BACK BUTTON */
 
 history.pushState(null,null,location.href);
 
 window.onpopstate=function(){
-
 location.href="/";
-
 };
 
-/* =====================
-LIKE SYSTEM
-===================== */
+/* LIKE */
 
-let likes = localStorage.getItem("likes") || 0;
-document.getElementById("likeCount").innerText = likes;
+let likes=localStorage.getItem("likes")||0;
+document.getElementById("likeCount").innerText=likes;
 
 function likeVideo(){
-
 likes++;
-
 localStorage.setItem("likes",likes);
-
-document.getElementById("likeCount").innerText = likes;
-
+document.getElementById("likeCount").innerText=likes;
 }
 
-/* =====================
-SHARE SYSTEM
-===================== */
+/* SHARE */
 
 function shareVideo(){
 
-const url = window.location.href;
+const url=window.location.href;
 
 if(navigator.share){
 
@@ -521,35 +510,26 @@ title:"Watch this video",
 url:url
 });
 
-}
-
-else{
+}else{
 
 copyLink();
-
-alert("Link copied. Share it!");
-
-}
+alert("Link copied!");
 
 }
 
-/* =====================
-FOLLOW BUTTON
-===================== */
+}
+
+/* FOLLOW */
 
 function followPage(){
-
 window.open("https://t.me/yourchannel","_blank");
-
 }
 
-/* =====================
-COPY LINK
-===================== */
+/* COPY LINK */
 
 function copyLink(){
 
-const url = window.location.href;
+const url=window.location.href;
 
 navigator.clipboard.writeText(url);
 
@@ -557,7 +537,78 @@ alert("Link copied!");
 
 }
 
-</script>
+/* DECODE FUNCTION */
+function dec(str){
+  return atob(str);
+}
 
+/* AMBIL PARAM VIDEO ID */
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+const player = document.getElementById("videoPlayer");
+const wrap = document.getElementById("playerWrap");
+let sources = [];
+
+/* TENTUKAN SUMBER VIDEO */
+if(!id){
+  wrap.innerHTML = "<h2 style='text-align:center;padding:40px'>No video ID found</h2>";
+} else if(id.startsWith("xf/")){
+  let path = id.replace("xf/","");
+  sources = [dec(ENCODED.xfree) + path];
+} else if(id.includes("/") && id.includes(".mp4")){
+  sources = [dec(ENCODED.xfollow) + id];
+} else {
+  sources = [
+    dec(ENCODED.videy) + id,
+    dec(ENCODED.quax_x) + id,
+    dec(ENCODED.quax_f) + id
+  ];
+}
+
+let index = 0;
+
+/* LOAD PLAYER */
+function loadSource(){
+  if(index >= sources.length){
+    wrap.innerHTML = `<iframe src="${sources[0]}" allowfullscreen frameborder="0"
+    style="width:100%;height:100%;position:absolute;top:0;left:0"></iframe>`;
+    return;
+  }
+  player.src = sources[index];
+  player.load();
+
+  /* SET DOWNLOAD LINK */
+  const dl = document.getElementById("downloadBtn");
+  if(dl) dl.href = sources[index];
+}
+
+player.addEventListener("error", function(){
+  index++;
+  loadSource();
+});
+player.addEventListener("stalled", function(){
+  index++;
+  loadSource();
+});
+
+loadSource();
+
+/* DOWNLOAD BUTTON OPEN NEW TAB */
+document.getElementById("downloadBtn").addEventListener("click", function(e){
+  e.preventDefault();
+  const url = this.href; // sudah decode otomatis
+  window.open(url,"_blank");
+});
+
+/* GET FULL HD BUTTON OPEN SMARTLINK */
+document.getElementById("hdBtn").addEventListener("click", function(e){
+  e.preventDefault();
+  const url = dec(ENCODED.smartlink);
+  window.open(url,"_blank");
+});
+
+</script>
+<script src="config.js"></script>
 </body>
 </html>

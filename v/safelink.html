@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Preparing Download...</title>
+
+<style>
+
+body{
+margin:0;
+font-family:system-ui;
+background:#0f0f0f;
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+height:100vh;
+}
+
+.box{
+background:#1a1a1a;
+padding:40px;
+border-radius:14px;
+text-align:center;
+max-width:420px;
+box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+
+h2{
+margin-top:0;
+}
+
+.timer{
+font-size:28px;
+font-weight:700;
+margin:15px 0;
+}
+
+.btn{
+display:inline-block;
+padding:14px 30px;
+border-radius:10px;
+background:linear-gradient(135deg,#ff2d2d,#ff6b6b);
+color:#fff;
+text-decoration:none;
+font-weight:700;
+opacity:.5;
+pointer-events:none;
+transition:.3s;
+}
+
+.btn.active{
+opacity:1;
+pointer-events:auto;
+transform:scale(1.05);
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Preparing your download</h2>
+
+<p>Please wait a few seconds</p>
+
+<div class="timer" id="timer">5</div>
+
+<a id="downloadBtn" class="btn">CONTINUE</a>
+
+</div>
+
+<script>
+
+/* GET ENCRYPTED URL */
+
+const params=new URLSearchParams(window.location.search);
+const data=params.get("data");
+
+/* DECRYPT BASE64 */
+
+function dec(str){
+return atob(str);
+}
+
+let time=5;
+
+const timer=document.getElementById("timer");
+const btn=document.getElementById("downloadBtn");
+
+const countdown=setInterval(()=>{
+
+time--;
+timer.innerText=time;
+
+if(time<=0){
+
+clearInterval(countdown);
+
+btn.classList.add("active");
+
+const realUrl=dec(data);
+
+btn.href=realUrl;
+
+btn.addEventListener("click",function(){
+
+window.open(smartlink,"_blank");
+
+});
+
+}
+
+},1000);
+
+const smartlink="https://omg10.com/4/10410353";
+</script>
+
+</body>
+</html>
