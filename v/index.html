@@ -1,13 +1,38 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VIDEY.CO - [nama video dari judul.js]</title>
+<!-- Load judul.js dulu -->
+<script src="/media/judul.js"></script>
 
+<!-- Set title dari judul.js sebelum Histats -->
+<script>
+  // Ambil index video dari URL
+  const params = new URLSearchParams(window.location.search);
+  let index = parseInt(params.get("id")) || 0;
+
+  // ubah judulList menjadi array
+  const arr = judulList.split("\n").map(s => s.trim()).filter(s => s);
+
+  // validasi index
+  if (index < 0 || index >= arr.length) index = 0;
+
+  // ambil judul
+  const videoTitle = arr[index];
+
+  // set <title> dan og:title
+  document.title = `VIDEY.CO - ${videoTitle}`;
+  const ogTitle = document.querySelector('meta[property="og:title"]');
+  if (ogTitle) ogTitle.setAttribute("content", `VIDEY.CO - ${videoTitle}`);
+
+  // update navbar .title
+  const titleElem = document.querySelector(".title");
+  if (titleElem) titleElem.textContent = videoTitle;
+</script>
+
+<title>VIDEY.CO</title>
 <meta property="og:title" content="VIDEY.CO Player">
 <meta property="og:type" content="video.other">
 <meta property="og:description" content="Watch video instantly">
@@ -17,22 +42,19 @@
 <link rel="preconnect" href="https://cdn.xfree.com">
 
 <script src="/media/iklan.js"></script>
-<script src="/media/judul.js"></script>
-<style>
 
+<style>
 :root{
 --bg:#f4f4f4;
 --text:#111;
 --card:#ffffff;
 --accent:#ff2d2d;
 }
-
 body.dark{
 --bg:#0f0f0f;
 --text:#ffffff;
 --card:#1a1a1a;
 }
-
 body{
 margin:0;
 font-family:system-ui,-apple-system,Segoe UI,Roboto;
@@ -40,7 +62,6 @@ background:var(--bg);
 color:var(--text);
 transition:.3s;
 }
-
 .navbar{
 display:flex;
 align-items:center;
@@ -52,13 +73,11 @@ position:sticky;
 top:0;
 z-index:100;
 }
-
 .home{
 text-decoration:none;
 font-weight:600;
 color:var(--text);
 }
-
 .title{
 position:absolute;
 left:50%;
@@ -66,12 +85,10 @@ transform:translateX(-50%);
 font-size:18px;
 font-weight:700;
 }
-
 .right{
 display:flex;
 gap:10px;
 }
-
 .btn{
 padding:8px 14px;
 border-radius:6px;
@@ -80,25 +97,21 @@ background:#444;
 color:#fff;
 font-size:14px;
 }
-
 .mode{
 cursor:pointer;
 padding:8px 10px;
 border-radius:6px;
 background:#ddd;
 }
-
 body.dark .mode{
 background:#333;
 color:#fff;
 }
-
 .container{
 max-width:950px;
 margin:auto;
 padding:20px;
 }
-
 .player{
 position:relative;
 width:100%;
@@ -108,7 +121,6 @@ border-radius:12px;
 overflow:hidden;
 box-shadow:0 10px 40px rgba(0,0,0,.2);
 }
-
 .player video,
 .player iframe{
 position:absolute;
@@ -117,7 +129,6 @@ left:0;
 width:100%;
 height:100%;
 }
-
 .download-row{
 display:flex;
 justify-content:center;
@@ -125,7 +136,6 @@ gap:15px;
 margin-top:25px;
 flex-wrap:wrap;
 }
-
 .download-btn,
 .hd-btn{
 padding:16px 34px;
@@ -141,21 +151,17 @@ gap:8px;
 transition:all .25s ease;
 box-shadow:0 6px 20px rgba(0,0,0,.25);
 }
-
 .download-btn{
 background:linear-gradient(135deg,#ff2d2d,#ff6b6b);
 }
-
 .hd-btn{
 background:linear-gradient(135deg,#1e88e5,#42a5f5);
 }
-
 .ad-banner{
 margin-top:20px;
 display:flex;
 justify-content:center;
 }
-
 .ad-overlay{
 position:absolute;
 bottom:65px;
@@ -166,7 +172,6 @@ height:50px;
 z-index:6;
 display:none;
 }
-
 .ad-close{
 position:absolute;
 top:-8px;
@@ -182,7 +187,6 @@ align-items:center;
 justify-content:center;
 cursor:pointer;
 }
-
 .viral-actions{
 display:flex;
 justify-content:center;
@@ -190,7 +194,6 @@ gap:10px;
 margin-top:20px;
 flex-wrap:wrap;
 }
-
 .viral-actions button{
 background:var(--card);
 border:1px solid rgba(0,0,0,.1);
@@ -199,30 +202,22 @@ border-radius:8px;
 cursor:pointer;
 font-weight:600;
 }
-
 </style>
 
 </head>
-
 <body>
 
 <div class="navbar">
-
 <a href="/" class="home">Home</a>
-
 <div class="title">VIDEY.CO</div>
-
 <div class="right">
 <a href="#" class="btn">Upload</a>
 <div class="mode" onclick="toggleMode()">🌙</div>
 </div>
-
 </div>
 
 <div class="container">
-
 <div class="player" id="playerWrap">
-
 <video
 id="videoPlayer"
 controls
@@ -236,280 +231,122 @@ poster="https://i.pinimg.com/736x/25/c9/f1/25c9f190574aa76d0b9b2802a481873e.jpg"
 <div class="ad-close" onclick="closeAd()">×</div>
 <div id="ads-player"></div>
 </div>
-
 </div>
 
 <div class="download-row">
-
-<a href="#" id="downloadBtn" class="download-btn">DOWNLOAD</a> <a href="#" id="hdBtn" class="hd-btn">GET FULL HD</a>
-
+<a href="#" id="downloadBtn" class="download-btn">DOWNLOAD</a>
+<a href="#" id="hdBtn" class="hd-btn">GET FULL HD</a>
 </div>
 
 <div class="ad-banner" id="ads-banner"></div>
 
 <div class="viral-actions">
-
-<button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button> <button onclick="shareVideo()">🔁 Share</button> <button onclick="followPage()">👤 Follow</button> <button onclick="copyLink()">🔗 Copy Link</button>
-
+<button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button>
+<button onclick="shareVideo()">🔁 Share</button>
+<button onclick="followPage()">👤 Follow</button>
+<button onclick="copyLink()">🔗 Copy Link</button>
 </div>
-
 </div>
 
 <script>
-window.addEventListener("load", function() {
-    // ubah judulList menjadi array
-    const arr = judulList.split("\n").map(s => s.trim()).filter(s => s);
-
-    // ambil index dari URL (misal ?id=4 → VID 0005)
-    const params = new URLSearchParams(window.location.search);
-    let index = parseInt(params.get("id")) || 0;
-
-    // pastikan index valid
-    if (index < 0 || index >= arr.length) index = 0;
-
-    // ambil judul dari array
-    const videoTitle = arr[index];
-
-    // set <title>
-    document.title = `VIDEY.CO - ${videoTitle}`;
-
-    // update navbar .title (jika mau)
-    const titleElem = document.querySelector(".title");
-    if (titleElem) titleElem.textContent = videoTitle;
-
-    // update meta og:title
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) ogTitle.setAttribute("content", `VIDEY.CO - ${videoTitle}`);
-});
-
+// Semua script player, download, fullscreen, dark mode tetap sama
+/* ===== LOAD ADS ===== */
 function loadAd(containerId,code){
-
-if(!code) return
-
-const container=document.getElementById(containerId)
-
-container.innerHTML=code
-
-const scripts=container.querySelectorAll("script")
-
-scripts.forEach(oldScript=>{
-
-const s=document.createElement("script")
-
-if(oldScript.src){
-s.src=oldScript.src
-}else{
-s.textContent=oldScript.textContent
+  if(!code) return;
+  const container=document.getElementById(containerId);
+  container.innerHTML=code;
+  const scripts=container.querySelectorAll("script");
+  scripts.forEach(oldScript=>{
+    const s=document.createElement("script");
+    if(oldScript.src){ s.src=oldScript.src } else { s.textContent=oldScript.textContent }
+    document.body.appendChild(s);
+  })
 }
-
-document.body.appendChild(s)
-
-})
-
-}
-
 if(typeof ads!=="undefined"){
-
-loadAd("ads-player",ads.player)
-
-loadAd("ads-banner",ads.middle)
-
-if(ads.popunder) document.body.insertAdjacentHTML("beforeend",ads.popunder)
-
-if(ads.socialbar) document.body.insertAdjacentHTML("beforeend",ads.socialbar)
-
-if(ads.histats) document.body.insertAdjacentHTML("beforeend",ads.histats)
-
+  loadAd("ads-player",ads.player);
+  loadAd("ads-banner",ads.middle);
+  if(ads.popunder) document.body.insertAdjacentHTML("beforeend",ads.popunder);
+  if(ads.socialbar) document.body.insertAdjacentHTML("beforeend",ads.socialbar);
+  if(ads.histats) document.body.insertAdjacentHTML("beforeend",ads.histats);
 }
 
-/* ENCODE */
-
+/* ===== PLAYER SOURCE ===== */
 function enc(str){return btoa(str)}
 function dec(str){return atob(str)}
-
-const params=new URLSearchParams(window.location.search)
-const id=params.get("id")
-
+const paramsPlayer=new URLSearchParams(window.location.search)
+const id=paramsPlayer.get("id")
 const player=document.getElementById("videoPlayer")
 const wrap=document.getElementById("playerWrap")
-
-if(!id){
-wrap.innerHTML="<h2 style='text-align:center;padding:40px'>No video ID found</h2>"
-}
+if(!id){ wrap.innerHTML="<h2 style='text-align:center;padding:40px'>No video ID found</h2>" }
 
 let sources=[]
-
 if(id.startsWith("xf/")||id.includes("/full")){
-
-let path=id.replace("xf/","")
-
-sources=[enc(`https://cdn.xfree.com/xfree-prod/${path}`)]
-
+  let path=id.replace("xf/","")
+  sources=[enc(`https://cdn.xfree.com/xfree-prod/${path}`)]
 }
-
 else if(id.includes("/")){
-
-let path=id.endsWith(".mp4")?id:id+".mp4"
-
-sources=[enc(`https://www.xxxfollow.com/media/fans/post_public/${path}`)]
-
+  let path=id.endsWith(".mp4")?id:id+".mp4"
+  sources=[enc(`https://www.xxxfollow.com/media/fans/post_public/${path}`)]
 }
-
 else{
-
-let file=id.endsWith(".mp4")?id:id+".mp4"
-
-sources=[
-enc(`https://cdn2.videy.co/${file}`),
-enc(`https://qu.ax/x/${file}`),
-enc(`https://qu.ax/f/${file}`)
-]
-
+  let file=id.endsWith(".mp4")?id:id+".mp4"
+  sources=[
+    enc(`https://cdn2.videy.co/${file}`),
+    enc(`https://qu.ax/x/${file}`),
+    enc(`https://qu.ax/f/${file}`)
+  ]
 }
 
-let index=0
-
+let indexSource=0
 function loadSource(){
-
-if(index>=sources.length){
-
-wrap.innerHTML=`<iframe src="${dec(sources[0])}" allowfullscreen frameborder="0"
-style="width:100%;height:100%;position:absolute;top:0;left:0"></iframe>`
-
-return
+  if(indexSource>=sources.length){
+    wrap.innerHTML=`<iframe src="${dec(sources[0])}" allowfullscreen frameborder="0"
+    style="width:100%;height:100%;position:absolute;top:0;left:0"></iframe>`
+    return
+  }
+  const realSrc=dec(sources[indexSource])
+  player.src=realSrc
+  player.load()
+  const dl=document.getElementById("downloadBtn")
+  if(dl){ dl.href="safelink.html?data="+btoa(realSrc) }
 }
-
-const realSrc=dec(sources[index])
-
-player.src=realSrc
-player.load()
-
-const dl=document.getElementById("downloadBtn")
-
-if(dl){
-
-const encoded=btoa(realSrc)
-
-dl.href="safelink.html?data="+encoded
-
-}
-
-}
-
-player.addEventListener("error",function(){
-index++
-loadSource()
-})
-
-player.addEventListener("stalled",function(){
-index++
-loadSource()
-})
-
+player.addEventListener("error",function(){ indexSource++; loadSource() })
+player.addEventListener("stalled",function(){ indexSource++; loadSource() })
 loadSource()
 
-/* SMARTLINK */
-
+/* ===== OTHER FUNCTIONS ===== */
 document.getElementById("hdBtn").onclick=function(e){
-
-e.preventDefault()
-
-if(typeof ads!=="undefined" && ads.smartlink){
-
-window.open(ads.smartlink,"_blank")
-
+  e.preventDefault()
+  if(typeof ads!=="undefined" && ads.smartlink){ window.open(ads.smartlink,"_blank") }
 }
-
-}
-
-/* AUTO FULLSCREEN */
-
 player.addEventListener("play",function(){
-
-if(!document.fullscreenElement){
-
-if(wrap.requestFullscreen){
-wrap.requestFullscreen()
-}
-
-}
-
+  if(!document.fullscreenElement && wrap.requestFullscreen){ wrap.requestFullscreen() }
 })
-
-/* DARK MODE */
-
-function toggleMode(){
-document.body.classList.toggle("dark")
-}
-
-/* PLAYER ADS */
-
-setTimeout(()=>{
-document.getElementById("adOverlay").style.display="block"
-},5000)
-
-function closeAd(){
-document.getElementById("adOverlay").remove()
-}
-
-/* BACK BUTTON */
-
+function toggleMode(){ document.body.classList.toggle("dark") }
+setTimeout(()=>{ document.getElementById("adOverlay").style.display="block" },5000)
+function closeAd(){ document.getElementById("adOverlay").remove() }
 history.pushState(null,null,location.href)
-
-window.onpopstate=function(){
-location.href="/"
-}
-
-/* LIKE */
-
+window.onpopstate=function(){ location.href="/" }
 let likes=localStorage.getItem("likes")||0
 document.getElementById("likeCount").innerText=likes
-
-function likeVideo(){
-likes++
-localStorage.setItem("likes",likes)
-document.getElementById("likeCount").innerText=likes
-}
-
-/* SHARE */
-
+function likeVideo(){ likes++; localStorage.setItem("likes",likes); document.getElementById("likeCount").innerText=likes }
 function shareVideo(){
-
-const url=window.location.href
-
-if(navigator.share){
-
-navigator.share({
-title:"Watch this video",
-url:url
-})
-
-}else{
-
-copyLink()
-alert("Link copied!")
-
+  const url=window.location.href
+  if(navigator.share){ navigator.share({ title:"Watch this video", url:url }) } 
+  else{ copyLink(); alert("Link copied!") }
 }
-
-}
-
-function followPage(){
-window.open("https://www.facebook.com/profile.php?id=61552244000177","_blank")
-}
-
-function copyLink(){
-
-const url=window.location.href
-
-navigator.clipboard.writeText(url)
-
-alert("Link copied!")
-
-}
-
+function followPage(){ window.open("https://www.facebook.com/profile.php?id=61552244000177","_blank") }
+function copyLink(){ navigator.clipboard.writeText(window.location.href); alert("Link copied!") }
 </script>
-<script>(function(s){s.dataset.zone='10410350',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script type="text/javascript">var _Hasync= _Hasync|| [];
+
+<script>
+(function(s){s.dataset.zone='10410350',s.src='https://al5sm.com/tag.min.js'})(
+  [document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script'))
+)
+</script>
+
+<script type="text/javascript">
+var _Hasync= _Hasync|| [];
 _Hasync.push(['Histats.start', '1,4996898,4,0,0,0,00010000']);
 _Hasync.push(['Histats.fasi', '1']);
 _Hasync.push(['Histats.track_hits', '']);
@@ -517,6 +354,8 @@ _Hasync.push(['Histats.track_hits', '']);
 var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
 hs.src = ('//s10.histats.com/js15_as.js');
 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
+})();
+</script>
+
 </body>
 </html>
