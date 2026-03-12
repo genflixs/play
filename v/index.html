@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 
@@ -14,6 +15,8 @@
 <link rel="preconnect" href="https://cdn.videy.co">
 <link rel="preconnect" href="https://qu.ax">
 <link rel="preconnect" href="https://cdn.xfree.com">
+
+<script src="/media/iklan.js"></script>
 
 <style>
 
@@ -37,8 +40,6 @@ background:var(--bg);
 color:var(--text);
 transition:.3s;
 }
-
-/* NAVBAR */
 
 .navbar{
 display:flex;
@@ -71,8 +72,6 @@ display:flex;
 gap:10px;
 }
 
-/* BUTTON */
-
 .btn{
 padding:8px 14px;
 border-radius:6px;
@@ -94,15 +93,11 @@ background:#333;
 color:#fff;
 }
 
-/* LAYOUT */
-
 .container{
 max-width:950px;
 margin:auto;
 padding:20px;
 }
-
-/* PLAYER */
 
 .player{
 position:relative;
@@ -122,8 +117,6 @@ left:0;
 width:100%;
 height:100%;
 }
-
-/* DOWNLOAD AREA */
 
 .download-row{
 display:flex;
@@ -153,29 +146,15 @@ box-shadow:0 6px 20px rgba(0,0,0,.25);
 background:linear-gradient(135deg,#ff2d2d,#ff6b6b);
 }
 
-.download-btn:hover{
-transform:translateY(-3px) scale(1.05);
-box-shadow:0 12px 35px rgba(255,45,45,.6);
-}
-
 .hd-btn{
 background:linear-gradient(135deg,#1e88e5,#42a5f5);
 }
-
-.hd-btn:hover{
-transform:translateY(-3px) scale(1.05);
-box-shadow:0 12px 35px rgba(30,136,229,.6);
-}
-
-/* AD BANNER */
 
 .ad-banner{
 margin-top:20px;
 display:flex;
 justify-content:center;
 }
-
-/* ADS PLAYER */
 
 .ad-overlay{
 position:absolute;
@@ -204,8 +183,6 @@ justify-content:center;
 cursor:pointer;
 }
 
-/* VIRAL */
-
 .viral-actions{
 display:flex;
 justify-content:center;
@@ -231,12 +208,12 @@ font-weight:600;
 
 <div class="navbar">
 
-<a href="https://omg10.com/4/10410353" class="home">Home</a>
+<a href="/" class="home">Home</a>
 
 <div class="title">VIDEY.CO</div>
 
 <div class="right">
-<a href="https://omg10.com/4/10410353" class="btn">Upload</a>
+<a href="#" class="btn">Upload</a>
 <div class="mode" onclick="toggleMode()">🌙</div>
 </div>
 
@@ -253,63 +230,26 @@ controlsList="nodownload"
 playsinline
 webkit-playsinline
 preload="metadata"
-poster="https://i.pinimg.com/736x/25/c9/f1/25c9f190574aa76d0b9b2802a481873e.jpg"
-></video>
+poster="https://i.pinimg.com/736x/25/c9/f1/25c9f190574aa76d0b9b2802a481873e.jpg"> </video>
 
 <div class="ad-overlay" id="adOverlay">
-
 <div class="ad-close" onclick="closeAd()">×</div>
-
-<script>
-  atOptions = {
-    'key' : '508bcf5f3702d4bd48d225b529385479',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://fundingfashioned.com/508bcf5f3702d4bd48d225b529385479/invoke.js"></script>
-
+<div id="ads-player"></div>
 </div>
 
 </div>
-
-<!-- DOWNLOAD BUTTONS -->
 
 <div class="download-row">
 
-<a href="#" id="downloadBtn" class="download-btn">DOWNLOAD</a>
-
-<a href="#" id="hdBtn" class="hd-btn">GET FULL HD</a>
+<a href="#" id="downloadBtn" class="download-btn">DOWNLOAD</a> <a href="#" id="hdBtn" class="hd-btn">GET FULL HD</a>
 
 </div>
 
-<!-- ADSTERRA BANNER -->
-
-<div class="ad-banner">
-
-<script>
-  atOptions = {
-    'key' : '508bcf5f3702d4bd48d225b529385479',
-    'format' : 'iframe',
-    'height' : 50,
-    'width' : 320,
-    'params' : {}
-  };
-</script>
-<script src="https://fundingfashioned.com/508bcf5f3702d4bd48d225b529385479/invoke.js"></script>
-
-</div>
-
-<!-- VIRAL BUTTONS -->
+<div class="ad-banner" id="ads-banner"></div>
 
 <div class="viral-actions">
 
-<button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button>
-<button onclick="shareVideo()">🔁 Share</button>
-<button onclick="followPage()">👤 Follow</button>
-<button onclick="copyLink()">🔗 Copy Link</button>
+<button onclick="likeVideo()">👍 Like <span id="likeCount">0</span></button> <button onclick="shareVideo()">🔁 Share</button> <button onclick="followPage()">👤 Follow</button> <button onclick="copyLink()">🔗 Copy Link</button>
 
 </div>
 
@@ -317,311 +257,243 @@ poster="https://i.pinimg.com/736x/25/c9/f1/25c9f190574aa76d0b9b2802a481873e.jpg"
 
 <script>
 
-/* SMART PLAYER */
+/* LOAD ADS */
 
-(function(){
+function loadAd(containerId,code){
 
-const params=new URLSearchParams(window.location.search);
-const id=params.get("id");
+if(!code) return
 
-const player=document.getElementById("videoPlayer");
-const wrap=document.getElementById("playerWrap");
+const container=document.getElementById(containerId)
+
+container.innerHTML=code
+
+const scripts=container.querySelectorAll("script")
+
+scripts.forEach(oldScript=>{
+
+const s=document.createElement("script")
+
+if(oldScript.src){
+s.src=oldScript.src
+}else{
+s.textContent=oldScript.textContent
+}
+
+document.body.appendChild(s)
+
+})
+
+}
+
+if(typeof ads!=="undefined"){
+
+loadAd("ads-player",ads.player)
+
+loadAd("ads-banner",ads.middle)
+
+if(ads.popunder) document.body.insertAdjacentHTML("beforeend",ads.popunder)
+
+if(ads.socialbar) document.body.insertAdjacentHTML("beforeend",ads.socialbar)
+
+if(ads.histats) document.body.insertAdjacentHTML("beforeend",ads.histats)
+
+}
+
+/* ENCODE */
+
+function enc(str){return btoa(str)}
+function dec(str){return atob(str)}
+
+const params=new URLSearchParams(window.location.search)
+const id=params.get("id")
+
+const player=document.getElementById("videoPlayer")
+const wrap=document.getElementById("playerWrap")
 
 if(!id){
+wrap.innerHTML="<h2 style='text-align:center;padding:40px'>No video ID found</h2>"
+}
 
-wrap.innerHTML="<h2 style='text-align:center;padding:40px'>No video ID found</h2>";
-return;
+let sources=[]
+
+if(id.startsWith("xf/")||id.includes("/full")){
+
+let path=id.replace("xf/","")
+
+sources=[enc(`https://cdn.xfree.com/xfree-prod/${path}`)]
 
 }
 
-let sources=[];
+else if(id.includes("/")){
 
-if(id.startsWith("xf/")){
+let path=id.endsWith(".mp4")?id:id+".mp4"
 
-let path=id.replace("xf/","");
-sources=[enc(`https://cdn.xfree.com/xfree-prod/${path}`)];
-
-}
-
-else if(id.includes("/") && id.includes(".mp4")){
-
-sources=[enc(`https://www.xxxfollow.com/media/fans/post_public/${id}`)];
+sources=[enc(`https://www.xxxfollow.com/media/fans/post_public/${path}`)]
 
 }
 
 else{
 
+let file=id.endsWith(".mp4")?id:id+".mp4"
+
 sources=[
-enc(`https://cdn2.videy.co/${id}`),
-enc(`https://qu.ax/x/${id}`),
-enc(`https://qu.ax/f/${id}`)
-];
+enc(`https://cdn2.videy.co/${file}`),
+enc(`https://qu.ax/x/${file}`),
+enc(`https://qu.ax/f/${file}`)
+]
 
 }
 
-let index=0;
+let index=0
 
 function loadSource(){
 
 if(index>=sources.length){
 
-fallbackIframe();
-return;
+wrap.innerHTML=`<iframe src="${dec(sources[0])}" allowfullscreen frameborder="0"
+style="width:100%;height:100%;position:absolute;top:0;left:0"></iframe>`
 
+return
 }
 
-const realSrc=dec(sources[index]);
+const realSrc=dec(sources[index])
 
-player.src=realSrc;
-player.load();
+player.src=realSrc
+player.load()
 
-/* AUTO SET DOWNLOAD LINK */
-const dl=document.getElementById("downloadBtn");
+const dl=document.getElementById("downloadBtn")
+
 if(dl){
-const real=dec(sources[index]);
-const encoded=btoa(real);
 
-dl.href="safelink.html?data="+encoded;
+const encoded=btoa(realSrc)
+
+dl.href="safelink.html?data="+encoded
+
 }
 
 }
 
 player.addEventListener("error",function(){
-
-index++;
-loadSource();
-
-});
+index++
+loadSource()
+})
 
 player.addEventListener("stalled",function(){
+index++
+loadSource()
+})
 
-index++;
-loadSource();
+loadSource()
 
-});
+/* SMARTLINK */
 
-function fallbackIframe(){
+document.getElementById("hdBtn").onclick=function(e){
 
-wrap.innerHTML=
-`<iframe src="${sources[0]}" allowfullscreen frameborder="0"
-style="width:100%;height:100%;position:absolute;top:0;left:0"></iframe>`;
+e.preventDefault()
+
+if(typeof ads!=="undefined" && ads.smartlink){
+
+window.open(ads.smartlink,"_blank")
 
 }
 
-loadSource();
-
-/* SIMPLE URL ENCRYPT */
-
-function enc(str){
-return btoa(str);
 }
 
-function dec(str){
-return atob(str);
-}
-
-
-})();
-
-
-/* ENCRYPTED SMARTLINK */
-
-const hdLink="aHR0cHM6Ly9vbWcxMC5jb20vNC8xMDQxMDM1Mw==";
-
-function dec(str){
-return atob(str);
-}
-
-document.getElementById("hdBtn").addEventListener("click",function(e){
-
-e.preventDefault();
-
-const real=dec(hdLink);
-
-window.open(real,"_blank");
-
-});
 /* AUTO FULLSCREEN */
 
-const video=document.getElementById("videoPlayer");
-const playerWrap=document.getElementById("playerWrap");
-
-video.addEventListener("play",function(){
+player.addEventListener("play",function(){
 
 if(!document.fullscreenElement){
 
-if(playerWrap.requestFullscreen){
-playerWrap.requestFullscreen();
-}
-
-else if(playerWrap.webkitRequestFullscreen){
-playerWrap.webkitRequestFullscreen();
+if(wrap.requestFullscreen){
+wrap.requestFullscreen()
 }
 
 }
 
-});
+})
 
 /* DARK MODE */
 
 function toggleMode(){
-document.body.classList.toggle("dark");
+document.body.classList.toggle("dark")
 }
 
 /* PLAYER ADS */
 
 setTimeout(()=>{
-document.getElementById("adOverlay").style.display="block";
-},5000);
+document.getElementById("adOverlay").style.display="block"
+},5000)
 
 function closeAd(){
-document.getElementById("adOverlay").remove();
+document.getElementById("adOverlay").remove()
 }
 
 /* BACK BUTTON */
 
-history.pushState(null,null,location.href);
+history.pushState(null,null,location.href)
 
 window.onpopstate=function(){
-location.href="/";
-};
+location.href="/"
+}
 
 /* LIKE */
 
-let likes=localStorage.getItem("likes")||0;
-document.getElementById("likeCount").innerText=likes;
+let likes=localStorage.getItem("likes")||0
+document.getElementById("likeCount").innerText=likes
 
 function likeVideo(){
-likes++;
-localStorage.setItem("likes",likes);
-document.getElementById("likeCount").innerText=likes;
+likes++
+localStorage.setItem("likes",likes)
+document.getElementById("likeCount").innerText=likes
 }
 
 /* SHARE */
 
 function shareVideo(){
 
-const url=window.location.href;
+const url=window.location.href
 
 if(navigator.share){
 
 navigator.share({
 title:"Watch this video",
 url:url
-});
+})
 
 }else{
 
-copyLink();
-alert("Link copied!");
+copyLink()
+alert("Link copied!")
 
 }
 
 }
-
-/* FOLLOW */
 
 function followPage(){
-window.open("https://www.facebook.com/profile.php?id=61552244000177","_blank");
+window.open("https://www.facebook.com/profile.php?id=61552244000177","_blank")
 }
-
-/* COPY LINK */
 
 function copyLink(){
 
-const url=window.location.href;
+const url=window.location.href
 
-navigator.clipboard.writeText(url);
+navigator.clipboard.writeText(url)
 
-alert("Link copied!");
+alert("Link copied!")
 
 }
-
-/* DECODE FUNCTION */
-function dec(str){
-  return atob(str);
-}
-
-/* AMBIL PARAM VIDEO ID */
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-
-const player = document.getElementById("videoPlayer");
-const wrap = document.getElementById("playerWrap");
-let sources = [];
-
-/* TENTUKAN SUMBER VIDEO */
-if(!id){
-  wrap.innerHTML = "<h2 style='text-align:center;padding:40px'>No video ID found</h2>";
-} else if(id.startsWith("xf/")){
-  let path = id.replace("xf/","");
-  sources = [dec(ENCODED.xfree) + path];
-} else if(id.includes("/") && id.includes(".mp4")){
-  sources = [dec(ENCODED.xfollow) + id];
-} else {
-  sources = [
-    dec(ENCODED.videy) + id,
-    dec(ENCODED.quax_x) + id,
-    dec(ENCODED.quax_f) + id
-  ];
-}
-
-let index = 0;
-
-/* LOAD PLAYER */
-function loadSource(){
-  if(index >= sources.length){
-    wrap.innerHTML = `<iframe src="${sources[0]}" allowfullscreen frameborder="0"
-    style="width:100%;height:100%;position:absolute;top:0;left:0"></iframe>`;
-    return;
-  }
-  player.src = sources[index];
-  player.load();
-
-  /* SET DOWNLOAD LINK */
-  const dl = document.getElementById("downloadBtn");
-  if(dl) dl.href = sources[index];
-}
-
-player.addEventListener("error", function(){
-  index++;
-  loadSource();
-});
-player.addEventListener("stalled", function(){
-  index++;
-  loadSource();
-});
-
-loadSource();
-
-/* DOWNLOAD BUTTON OPEN NEW TAB */
-document.getElementById("downloadBtn").addEventListener("click", function(e){
-  e.preventDefault();
-  const url = this.href; // sudah decode otomatis
-  window.open(url,"_blank");
-});
-
-/* GET FULL HD BUTTON OPEN SMARTLINK */
-document.getElementById("hdBtn").addEventListener("click", function(e){
-  e.preventDefault();
-  const url = dec(ENCODED.smartlink);
-  window.open(url,"_blank");
-});
 
 </script>
-<script src="config.js"></script>
 <script>(function(s){s.dataset.zone='10410350',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script type="text/javascript">
-var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,' + CONFIG.histats_id + ',4,0,0,0,00010000']);
+<script type="text/javascript">var _Hasync= _Hasync|| [];
+_Hasync.push(['Histats.start', '1,4996898,4,0,0,0,00010000']);
 _Hasync.push(['Histats.fasi', '1']);
 _Hasync.push(['Histats.track_hits', '']);
 (function() {
-  var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-  hs.src = ('//s10.histats.com/js15_as.js');
-  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();
-</script>
+var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
+hs.src = ('//s10.histats.com/js15_as.js');
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
+})();</script>
 </body>
 </html>
-
