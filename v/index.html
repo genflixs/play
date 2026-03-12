@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>VIDEY.CO</title>
+<title>VIDEY.CO - [nama video dari judul.js]</title>
 
 <meta property="og:title" content="VIDEY.CO Player">
 <meta property="og:type" content="video.other">
@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://cdn.xfree.com">
 
 <script src="/media/iklan.js"></script>
-
+<script src="/media/judul.js"></script>
 <style>
 
 :root{
@@ -256,8 +256,31 @@ poster="https://i.pinimg.com/736x/25/c9/f1/25c9f190574aa76d0b9b2802a481873e.jpg"
 </div>
 
 <script>
+window.addEventListener("load", function() {
+    // ubah judulList menjadi array
+    const arr = judulList.split("\n").map(s => s.trim()).filter(s => s);
 
-/* LOAD ADS */
+    // ambil index dari URL (misal ?id=4 → VID 0005)
+    const params = new URLSearchParams(window.location.search);
+    let index = parseInt(params.get("id")) || 0;
+
+    // pastikan index valid
+    if (index < 0 || index >= arr.length) index = 0;
+
+    // ambil judul dari array
+    const videoTitle = arr[index];
+
+    // set <title>
+    document.title = `VIDEY.CO - ${videoTitle}`;
+
+    // update navbar .title (jika mau)
+    const titleElem = document.querySelector(".title");
+    if (titleElem) titleElem.textContent = videoTitle;
+
+    // update meta og:title
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", `VIDEY.CO - ${videoTitle}`);
+});
 
 function loadAd(containerId,code){
 
