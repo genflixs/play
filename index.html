@@ -15,7 +15,30 @@
 <script src="/media/judul.js"></script>
 
 <script src="/media/iklan.js"></script>
+<script>
+// Fungsi Geo-IP untuk sembunyikan banner
+async function hideAdForLATAM() {
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    const data = await res.json();
+    const country = data.country; // ISO country code, 'MX' atau 'CO'
 
+    const adContainer = document.getElementById('adsterra-banner');
+
+    if(country === 'MX' || country === 'CO') {
+      // Sembunyikan banner Adsterra
+      adContainer.style.display = 'none';
+    } else {
+      adContainer.style.display = 'block';
+    }
+  } catch(err) {
+    console.error('Geo-IP error:', err);
+  }
+}
+
+// Jalankan saat halaman load
+window.onload = hideAdForLATAM;
+</script>
 <style>
 
 body{
