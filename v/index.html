@@ -1,25 +1,50 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>VIDEY.CO - [nama video dari judul.js]</title>
-
+<title>VIDEY.CO</title>
 <meta property="og:title" content="VIDEY.CO Player">
 <meta property="og:type" content="video.other">
 <meta property="og:description" content="Watch video instantly">
-
 <link rel="preconnect" href="https://cdn.videy.co">
 <link rel="preconnect" href="https://qu.ax">
 <link rel="preconnect" href="https://cdn.xfree.com">
-
 <script src="/media/iklan.js"></script>
 <script src="/media/judul.js"></script>
-<style>
+<script>
+(function(){
 
+const params = new URLSearchParams(location.search);
+const id = params.get("id") || "video";
+
+let videoTitle = "";
+
+if(typeof judulList !== "undefined"){
+
+let arr = Array.isArray(judulList)
+? judulList
+: judulList.split("\n").map(v=>v.trim()).filter(v=>v);
+
+let index = parseInt(id);
+
+if(!isNaN(index) && arr[index]){
+videoTitle = arr[index];
+}
+
+}
+
+/* fallback dari ID */
+if(!videoTitle){
+videoTitle = id.replace(".mp4","").replace(/[-_]/g," ");
+}
+
+/* set title lebih cepat */
+document.title = "VIDEY.CO - " + videoTitle;
+
+})();
+</script>
+<style>
 :root{
 --bg:#f4f4f4;
 --text:#111;
